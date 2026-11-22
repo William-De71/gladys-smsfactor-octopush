@@ -1,0 +1,49 @@
+name: Bug report
+description: Something does not work as described in the documentation.
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report a problem. Never paste your SMSFactor API token or Octopush API key: the logs of the integration do not contain them, but check before posting. Phone numbers are masked in the logs.
+  - type: input
+    id: gladys-version
+    attributes:
+      label: Gladys version
+      description: Settings → System.
+      placeholder: '5.1.1'
+    validations:
+      required: true
+  - type: input
+    id: integration-version
+    attributes:
+      label: Integration version
+      description: Integrations → SMSFactor + Octopush → Supervision tab.
+      placeholder: '0.1.0'
+    validations:
+      required: true
+  - type: input
+    id: account
+    attributes:
+      label: SMS provider (SMSFactor or Octopush)
+      description: The provider, the kind of sender (default of the account or custom name) and, for Octopush, the SMS type (premium or low cost). Never the token, the login or the key.
+      placeholder: 'SMSFactor, default sender, replies read'
+    validations:
+      required: true
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened, and what you expected
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs
+      description: |
+        Logs of the integration (Settings → Supervision). In developer mode, add the environment variable `DEBUG=gladys-integration-sdk` for the SDK debug logs, reproduce, then copy the lines. Phone numbers are masked; hide the texts of the SMS if you wish.
+      render: text

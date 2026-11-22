@@ -1,0 +1,1231 @@
+{
+  "manifest_version": 1,
+  "type": "communication",
+  "name": "SMSFactor + Octopush",
+  "description": {
+    "en": "Gladys notifications by SMS through SMSFactor or Octopush, with scenes and widgets.",
+    "fr": "Notifications de Gladys par SMS via SMSFactor ou Octopush, avec scènes et widgets.",
+    "de": "Gladys-Benachrichtigungen per SMS über SMSFactor oder Octopush, mit Szenen und Widgets.",
+    "es": "Notificaciones de Gladys por SMS con SMSFactor u Octopush, con escenas y widgets."
+  },
+  "version": "0.1.0",
+  "docker_image": "ghcr.io/william-de71/gladys-smsfactor-octopush:0.1.0",
+  "gladys_version": ">=5.3.0",
+  "categories": ["notifications"],
+  "keywords": [
+    "SMSFactor",
+    "Octopush",
+    "SMS",
+    "texto",
+    "text message",
+    "alerte SMS",
+    "SMS alert",
+    "SMS France"
+  ],
+  "transports": ["cloud"],
+  "cover_image": "https://raw.githubusercontent.com/William-De71/gladys-smsfactor-octopush/main/cover.jpg",
+  "messaging": {
+    "receive": false
+  },
+  "config_schema": [
+    {
+      "key": "intro",
+      "type": "section",
+      "label": {
+        "en": "SMS provider",
+        "fr": "Fournisseur de SMS",
+        "de": "SMS-Anbieter",
+        "es": "Proveedor de SMS"
+      },
+      "description": {
+        "en": "Choose the service that sends the SMS, then fill in its credentials below (only those of the chosen provider). Both are French SMS gateways paid per SMS: buy credits on their website first.",
+        "fr": "Choisissez le service qui envoie les SMS, puis remplissez ses identifiants ci-dessous (seulement ceux du fournisseur choisi). Ce sont deux passerelles SMS françaises payées au SMS : achetez d'abord des crédits sur leur site.",
+        "de": "Wählen Sie den Dienst, der die SMS sendet, und tragen Sie unten seine Zugangsdaten ein (nur die des gewählten Anbieters). Beide sind französische SMS-Gateways mit Abrechnung pro SMS: Kaufen Sie zuerst Guthaben auf deren Website.",
+        "es": "Elija el servicio que envía los SMS y rellene abajo sus credenciales (solo las del proveedor elegido). Ambos son pasarelas SMS francesas de pago por SMS: compre antes créditos en su sitio web."
+      },
+      "links": [
+        {
+          "url": "https://www.smsfactor.com",
+          "label": {
+            "en": "SMSFactor website",
+            "fr": "Site de SMSFactor",
+            "de": "Website von SMSFactor",
+            "es": "Sitio de SMSFactor"
+          }
+        },
+        {
+          "url": "https://www.octopush.com",
+          "label": {
+            "en": "Octopush website",
+            "fr": "Site d'Octopush",
+            "de": "Website von Octopush",
+            "es": "Sitio de Octopush"
+          }
+        }
+      ]
+    },
+    {
+      "key": "provider",
+      "type": "select",
+      "label": {
+        "en": "Provider",
+        "fr": "Fournisseur",
+        "de": "Anbieter",
+        "es": "Proveedor"
+      },
+      "description": {
+        "en": "SMSFactor also reports undelivered SMS and can read replies; Octopush only sends.",
+        "fr": "SMSFactor signale aussi les SMS non remis et sait lire les réponses ; Octopush ne fait qu'envoyer.",
+        "de": "SMSFactor meldet auch nicht zugestellte SMS und kann Antworten lesen; Octopush sendet nur.",
+        "es": "SMSFactor también avisa de los SMS no entregados y puede leer respuestas; Octopush solo envía."
+      },
+      "options": [
+        {
+          "value": "smsfactor",
+          "label": {
+            "en": "SMSFactor",
+            "fr": "SMSFactor",
+            "de": "SMSFactor",
+            "es": "SMSFactor"
+          }
+        },
+        {
+          "value": "octopush",
+          "label": {
+            "en": "Octopush",
+            "fr": "Octopush",
+            "de": "Octopush",
+            "es": "Octopush"
+          }
+        }
+      ],
+      "default": "smsfactor",
+      "required": true
+    },
+    {
+      "key": "smsfactor_intro",
+      "type": "section",
+      "label": {
+        "en": "SMSFactor",
+        "fr": "SMSFactor",
+        "de": "SMSFactor",
+        "es": "SMSFactor"
+      },
+      "description": {
+        "en": "In your SMSFactor account, open Developers → API tokens and create a token, then paste it here.",
+        "fr": "Dans votre compte SMSFactor, ouvrez Développeurs → Tokens API et créez un jeton, puis collez-le ici.",
+        "de": "Öffnen Sie in Ihrem SMSFactor-Konto Entwickler → API-Tokens, erstellen Sie ein Token und fügen Sie es hier ein.",
+        "es": "En su cuenta de SMSFactor, abra Desarrolladores → Tokens API, cree un token y péguelo aquí."
+      },
+      "links": [
+        {
+          "url": "https://my.smsfactor.com/developers/api-tokens",
+          "label": {
+            "en": "API tokens",
+            "fr": "Tokens API",
+            "de": "API-Tokens",
+            "es": "Tokens API"
+          }
+        },
+        {
+          "url": "https://dev.smsfactor.com/en/api/sms/getting-started",
+          "label": {
+            "en": "API documentation",
+            "fr": "Documentation de l'API",
+            "de": "API-Dokumentation",
+            "es": "Documentación de la API"
+          }
+        }
+      ]
+    },
+    {
+      "key": "smsfactor_token",
+      "type": "secret",
+      "label": {
+        "en": "SMSFactor API token",
+        "fr": "Jeton d'API SMSFactor",
+        "de": "SMSFactor-API-Token",
+        "es": "Token de API de SMSFactor"
+      },
+      "description": {
+        "en": "Stored encrypted and never shown again.",
+        "fr": "Stocké chiffré et plus jamais affiché.",
+        "de": "Wird verschlüsselt gespeichert und nie wieder angezeigt.",
+        "es": "Se guarda cifrado y no se vuelve a mostrar."
+      }
+    },
+    {
+      "key": "octopush_intro",
+      "type": "section",
+      "label": {
+        "en": "Octopush",
+        "fr": "Octopush",
+        "de": "Octopush",
+        "es": "Octopush"
+      },
+      "description": {
+        "en": "Your Octopush login is the e-mail address of the account; the API key is shown in the API section of the Octopush website. The account must be validated (onboarding finished) before it can send.",
+        "fr": "Votre identifiant Octopush est l'adresse e-mail du compte ; la clé d'API s'affiche dans la rubrique API du site d'Octopush. Le compte doit être validé (inscription terminée) pour pouvoir envoyer.",
+        "de": "Ihr Octopush-Login ist die E-Mail-Adresse des Kontos; der API-Schlüssel steht im API-Bereich der Octopush-Website. Das Konto muss freigeschaltet sein (Registrierung abgeschlossen), bevor es senden kann.",
+        "es": "Su usuario de Octopush es el correo electrónico de la cuenta; la clave de API aparece en el apartado API del sitio de Octopush. La cuenta debe estar validada (registro terminado) para poder enviar."
+      },
+      "links": [
+        {
+          "url": "https://dev.octopush.com/en/sms-gateway-api-documentation/",
+          "label": {
+            "en": "API documentation",
+            "fr": "Documentation de l'API",
+            "de": "API-Dokumentation",
+            "es": "Documentación de la API"
+          }
+        }
+      ]
+    },
+    {
+      "key": "octopush_login",
+      "type": "string",
+      "label": {
+        "en": "Octopush login",
+        "fr": "Identifiant Octopush",
+        "de": "Octopush-Login",
+        "es": "Usuario de Octopush"
+      },
+      "description": {
+        "en": "The e-mail address of the Octopush account.",
+        "fr": "L'adresse e-mail du compte Octopush.",
+        "de": "Die E-Mail-Adresse des Octopush-Kontos.",
+        "es": "El correo electrónico de la cuenta de Octopush."
+      },
+      "placeholder": {
+        "en": "you@example.com",
+        "fr": "vous@exemple.fr",
+        "de": "sie@beispiel.de",
+        "es": "usted@ejemplo.es"
+      }
+    },
+    {
+      "key": "octopush_api_key",
+      "type": "secret",
+      "label": {
+        "en": "Octopush API key",
+        "fr": "Clé d'API Octopush",
+        "de": "Octopush-API-Schlüssel",
+        "es": "Clave de API de Octopush"
+      },
+      "description": {
+        "en": "Stored encrypted and never shown again.",
+        "fr": "Stockée chiffrée et plus jamais affichée.",
+        "de": "Wird verschlüsselt gespeichert und nie wieder angezeigt.",
+        "es": "Se guarda cifrada y no se vuelve a mostrar."
+      }
+    },
+    {
+      "key": "octopush_sms_type",
+      "type": "select",
+      "label": {
+        "en": "Octopush SMS type",
+        "fr": "Type de SMS Octopush",
+        "de": "Octopush-SMS-Typ",
+        "es": "Tipo de SMS de Octopush"
+      },
+      "description": {
+        "en": "Premium: fast delivery, custom sender, every country. Low cost: cheaper, France only, no custom sender, slower.",
+        "fr": "Premium : remise rapide, expéditeur personnalisé, tous pays. Low cost : moins cher, France seulement, sans expéditeur personnalisé, plus lent.",
+        "de": "Premium: schnelle Zustellung, eigener Absender, alle Länder. Low Cost: günstiger, nur Frankreich, ohne eigenen Absender, langsamer.",
+        "es": "Premium: entrega rápida, remitente personalizado, todos los países. Low cost: más barato, solo Francia, sin remitente personalizado, más lento."
+      },
+      "options": [
+        {
+          "value": "premium",
+          "label": {
+            "en": "Premium",
+            "fr": "Premium",
+            "de": "Premium",
+            "es": "Premium"
+          }
+        },
+        {
+          "value": "low_cost",
+          "label": {
+            "en": "Low cost",
+            "fr": "Low cost",
+            "de": "Low Cost",
+            "es": "Low cost"
+          }
+        }
+      ],
+      "default": "premium"
+    },
+    {
+      "key": "sms_intro",
+      "type": "section",
+      "label": {
+        "en": "Sender and numbers",
+        "fr": "Expéditeur et numéros",
+        "de": "Absender und Nummern",
+        "es": "Remitente y números"
+      },
+      "description": {
+        "en": "Leave the sender empty to use the default of the account (a number, which recipients can reply to with SMSFactor). A name sender (3 to 11 letters or digits, e.g. GLADYS) cannot be answered, and with SMSFactor it may have to be registered first.",
+        "fr": "Laissez l'expéditeur vide pour utiliser celui du compte par défaut (un numéro, auquel les destinataires peuvent répondre avec SMSFactor). On ne peut pas répondre à un expéditeur nominatif (3 à 11 lettres ou chiffres, par exemple GLADYS), et chez SMSFactor il doit parfois être enregistré d'abord.",
+        "de": "Lassen Sie den Absender leer, um den Standard des Kontos zu nutzen (eine Nummer, auf die Empfänger bei SMSFactor antworten können). Auf einen Namensabsender (3 bis 11 Buchstaben oder Ziffern, z. B. GLADYS) kann man nicht antworten, und bei SMSFactor muss er eventuell zuerst registriert werden.",
+        "es": "Deje el remitente vacío para usar el predeterminado de la cuenta (un número, al que los destinatarios pueden responder con SMSFactor). No se puede responder a un remitente con nombre (3 a 11 letras o cifras, por ejemplo GLADYS), y en SMSFactor puede que deba registrarse antes."
+      }
+    },
+    {
+      "key": "sender",
+      "type": "string",
+      "label": {
+        "en": "Sender",
+        "fr": "Expéditeur",
+        "de": "Absender",
+        "es": "Remitente"
+      },
+      "description": {
+        "en": "Optional. 3 to 11 letters or digits.",
+        "fr": "Facultatif. 3 à 11 lettres ou chiffres.",
+        "de": "Optional. 3 bis 11 Buchstaben oder Ziffern.",
+        "es": "Opcional. 3 a 11 letras o cifras."
+      },
+      "placeholder": {
+        "en": "GLADYS",
+        "fr": "GLADYS",
+        "de": "GLADYS",
+        "es": "GLADYS"
+      }
+    },
+    {
+      "key": "country_code",
+      "type": "string",
+      "label": {
+        "en": "Default country code",
+        "fr": "Indicatif du pays par défaut",
+        "de": "Standard-Ländervorwahl",
+        "es": "Prefijo del país por defecto"
+      },
+      "description": {
+        "en": "Added to the numbers typed without one (06 12 34 56 78 becomes +33 6 12 34 56 78). Digits only: 33 France, 32 Belgium, 41 Switzerland, 352 Luxembourg, 1 Canada.",
+        "fr": "Ajouté aux numéros saisis sans indicatif (06 12 34 56 78 devient +33 6 12 34 56 78). Chiffres seulement : 33 France, 32 Belgique, 41 Suisse, 352 Luxembourg, 1 Canada.",
+        "de": "Wird Nummern ohne Vorwahl vorangestellt (06 12 34 56 78 wird zu +33 6 12 34 56 78). Nur Ziffern: 49 Deutschland, 43 Österreich, 41 Schweiz, 33 Frankreich.",
+        "es": "Se añade a los números escritos sin prefijo (06 12 34 56 78 pasa a ser +33 6 12 34 56 78). Solo cifras: 34 España, 33 Francia, 32 Bélgica, 1 Canadá."
+      },
+      "default": "33"
+    },
+    {
+      "key": "options_intro",
+      "type": "section",
+      "label": {
+        "en": "Alerts and replies",
+        "fr": "Alertes et réponses",
+        "de": "Warnungen und Antworten",
+        "es": "Avisos y respuestas"
+      }
+    },
+    {
+      "key": "low_credits_threshold",
+      "type": "number",
+      "label": {
+        "en": "Low credits alert",
+        "fr": "Alerte de crédits bas",
+        "de": "Warnung bei wenig Guthaben",
+        "es": "Aviso de pocos créditos"
+      },
+      "description": {
+        "en": "Below this amount, the \"Credits low\" scene trigger fires once: SMS credits with SMSFactor, euros with Octopush. Empty: 20 credits or 2 €.",
+        "fr": "Sous ce montant, le déclencheur de scène « Crédits bas » se déclenche une fois : crédits SMS chez SMSFactor, euros chez Octopush. Vide : 20 crédits ou 2 €.",
+        "de": "Unter diesem Betrag löst der Szenenauslöser „Wenig Guthaben“ einmal aus: SMS-Guthaben bei SMSFactor, Euro bei Octopush. Leer: 20 Guthaben oder 2 €.",
+        "es": "Por debajo de esta cantidad, el disparador de escena «Pocos créditos» se activa una vez: créditos SMS con SMSFactor, euros con Octopush. Vacío: 20 créditos o 2 €."
+      },
+      "min": 0,
+      "max": 100000
+    },
+    {
+      "key": "receive_sms",
+      "type": "boolean",
+      "label": {
+        "en": "Read the replies (SMSFactor)",
+        "fr": "Lire les réponses (SMSFactor)",
+        "de": "Antworten lesen (SMSFactor)",
+        "es": "Leer las respuestas (SMSFactor)"
+      },
+      "description": {
+        "en": "Fires \"SMS received\" for each reply to an SMS sent without a custom sender. Anyone can send an SMS with a forged number: never use it to open a door or disarm an alarm.",
+        "fr": "Déclenche « SMS reçu » pour chaque réponse à un SMS envoyé sans expéditeur personnalisé. N'importe qui peut envoyer un SMS avec un numéro falsifié : ne vous en servez jamais pour ouvrir une porte ou désarmer une alarme.",
+        "de": "Löst „SMS empfangen“ für jede Antwort auf eine ohne eigenen Absender gesendete SMS aus. Jeder kann eine SMS mit gefälschter Nummer senden: Nutzen Sie es nie, um eine Tür zu öffnen oder eine Alarmanlage zu entschärfen.",
+        "es": "Activa «SMS recibido» por cada respuesta a un SMS enviado sin remitente personalizado. Cualquiera puede enviar un SMS con un número falsificado: no lo use nunca para abrir una puerta o desactivar una alarma."
+      },
+      "default": false
+    }
+  ],
+  "contact_schema": [
+    {
+      "key": "intro",
+      "type": "section",
+      "label": {
+        "en": "Notifications by SMS",
+        "fr": "Notifications par SMS",
+        "de": "Benachrichtigungen per SMS",
+        "es": "Notificaciones por SMS"
+      },
+      "description": {
+        "en": "Enter the mobile number your Gladys notifications go to. Each SMS uses credits of the SMS account of the house.",
+        "fr": "Saisissez le numéro de mobile qui recevra vos notifications Gladys. Chaque SMS consomme des crédits du compte SMS de la maison.",
+        "de": "Geben Sie die Mobilnummer ein, an die Ihre Gladys-Benachrichtigungen gehen. Jede SMS verbraucht Guthaben des SMS-Kontos des Hauses.",
+        "es": "Introduzca el número de móvil al que llegarán sus notificaciones de Gladys. Cada SMS consume créditos de la cuenta SMS de la casa."
+      }
+    },
+    {
+      "key": "phone_number",
+      "type": "string",
+      "label": {
+        "en": "Mobile number",
+        "fr": "Numéro de mobile",
+        "de": "Mobilnummer",
+        "es": "Número de móvil"
+      },
+      "description": {
+        "en": "Preferably with the country code, for example +33612345678.",
+        "fr": "De préférence avec l'indicatif du pays, par exemple +33612345678.",
+        "de": "Am besten mit Ländervorwahl, zum Beispiel +4915112345678.",
+        "es": "Preferiblemente con el prefijo del país, por ejemplo +34612345678."
+      },
+      "placeholder": {
+        "en": "+33612345678",
+        "fr": "+33612345678",
+        "de": "+4915112345678",
+        "es": "+34612345678"
+      },
+      "required": true
+    }
+  ],
+  "actions": [
+    {
+      "key": "test_connection",
+      "label": {
+        "en": "Test the connection",
+        "fr": "Tester la connexion",
+        "de": "Verbindung testen",
+        "es": "Probar la conexión"
+      },
+      "description": {
+        "en": "Reads the account: credits or balance left, and the senders with SMSFactor.",
+        "fr": "Lit le compte : crédits ou solde restants, et les expéditeurs avec SMSFactor.",
+        "de": "Liest das Konto: Restguthaben und bei SMSFactor die Absender.",
+        "es": "Lee la cuenta: créditos o saldo restantes y, con SMSFactor, los remitentes."
+      },
+      "timeout_seconds": 30
+    },
+    {
+      "key": "send_test_sms",
+      "label": {
+        "en": "Send a test SMS",
+        "fr": "Envoyer un SMS de test",
+        "de": "Test-SMS senden",
+        "es": "Enviar un SMS de prueba"
+      },
+      "description": {
+        "en": "Sends a short SMS to the number below. It uses credits.",
+        "fr": "Envoie un court SMS au numéro ci-dessous. Il consomme des crédits.",
+        "de": "Sendet eine kurze SMS an die Nummer unten. Sie verbraucht Guthaben.",
+        "es": "Envía un SMS corto al número de abajo. Consume créditos."
+      },
+      "timeout_seconds": 30,
+      "fields": [
+        {
+          "key": "phone_number",
+          "type": "string",
+          "label": {
+            "en": "Mobile number",
+            "fr": "Numéro de mobile",
+            "de": "Mobilnummer",
+            "es": "Número de móvil"
+          },
+          "placeholder": {
+            "en": "+33612345678",
+            "fr": "+33612345678",
+            "de": "+4915112345678",
+            "es": "+34612345678"
+          },
+          "required": true
+        }
+      ]
+    }
+  ],
+  "widgets": [
+    {
+      "key": "account",
+      "label": {
+        "en": "SMS account",
+        "fr": "Compte SMS",
+        "de": "SMS-Konto",
+        "es": "Cuenta SMS"
+      },
+      "description": {
+        "en": "Credits or balance left, SMS of the month, sender, last failure.",
+        "fr": "Crédits ou solde restants, SMS du mois, expéditeur, dernier échec.",
+        "de": "Restguthaben, SMS des Monats, Absender, letzter Fehler.",
+        "es": "Créditos o saldo restantes, SMS del mes, remitente, último fallo."
+      },
+      "icon": "message-square"
+    },
+    {
+      "key": "inbox",
+      "label": {
+        "en": "SMS replies",
+        "fr": "Réponses SMS",
+        "de": "SMS-Antworten",
+        "es": "Respuestas SMS"
+      },
+      "description": {
+        "en": "The last replies received (SMSFactor); tap one to read it whole.",
+        "fr": "Les dernières réponses reçues (SMSFactor) ; touchez-en une pour la lire en entier.",
+        "de": "Die letzten empfangenen Antworten (SMSFactor); tippen Sie auf eine, um sie ganz zu lesen.",
+        "es": "Las últimas respuestas recibidas (SMSFactor); toque una para leerla entera."
+      },
+      "icon": "inbox"
+    }
+  ],
+  "scene_triggers": [
+    {
+      "key": "sms_not_sent",
+      "label": {
+        "en": "SMS not sent",
+        "fr": "SMS non envoyé",
+        "de": "SMS nicht gesendet",
+        "es": "SMS no enviado"
+      },
+      "description": {
+        "en": "A Gladys notification could not leave by SMS. Fires on the first failure, then again only after an SMS went through: a scene that warns you through this same channel cannot loop.",
+        "fr": "Une notification Gladys n'a pas pu partir par SMS. Se déclenche au premier échec, puis seulement après qu'un SMS est de nouveau passé : une scène qui vous prévient par ce même canal ne peut pas boucler.",
+        "de": "Eine Gladys-Benachrichtigung konnte nicht per SMS gesendet werden. Löst beim ersten Fehler aus, danach erst wieder, nachdem eine SMS durchgegangen ist: Eine Szene, die Sie über denselben Kanal warnt, kann keine Schleife bilden.",
+        "es": "Una notificación de Gladys no pudo salir por SMS. Se activa con el primer fallo y solo de nuevo después de que un SMS haya pasado: una escena que le avisa por este mismo canal no puede entrar en bucle."
+      },
+      "fields": [
+        {
+          "key": "reason",
+          "type": "multi_select",
+          "label": {
+            "en": "Reasons",
+            "fr": "Causes",
+            "de": "Ursachen",
+            "es": "Causas"
+          },
+          "description": {
+            "en": "Leave empty to react to every reason.",
+            "fr": "Laissez vide pour réagir à toutes les causes.",
+            "de": "Leer lassen, um auf alle Ursachen zu reagieren.",
+            "es": "Déjelo vacío para reaccionar a todas las causas."
+          },
+          "options": [
+            {
+              "value": "not_enough_credits",
+              "label": {
+                "en": "Not enough credits",
+                "fr": "Crédits insuffisants",
+                "de": "Zu wenig Guthaben",
+                "es": "Créditos insuficientes"
+              }
+            },
+            {
+              "value": "access_denied",
+              "label": {
+                "en": "Credentials refused",
+                "fr": "Identifiants refusés",
+                "de": "Zugangsdaten abgelehnt",
+                "es": "Credenciales rechazadas"
+              }
+            },
+            {
+              "value": "not_configured",
+              "label": {
+                "en": "Credentials missing in the configuration",
+                "fr": "Identifiants manquants dans la configuration",
+                "de": "Zugangsdaten fehlen in der Konfiguration",
+                "es": "Faltan credenciales en la configuración"
+              }
+            },
+            {
+              "value": "account_not_validated",
+              "label": {
+                "en": "Account not validated yet",
+                "fr": "Compte pas encore validé",
+                "de": "Konto noch nicht freigeschaltet",
+                "es": "Cuenta aún no validada"
+              }
+            },
+            {
+              "value": "invalid_number",
+              "label": {
+                "en": "Phone number refused",
+                "fr": "Numéro de téléphone refusé",
+                "de": "Rufnummer abgelehnt",
+                "es": "Número de teléfono rechazado"
+              }
+            },
+            {
+              "value": "blocked_number",
+              "label": {
+                "en": "Number blocked (STOP, unreachable)",
+                "fr": "Numéro bloqué (STOP, injoignable)",
+                "de": "Nummer gesperrt (STOP, unerreichbar)",
+                "es": "Número bloqueado (STOP, inaccesible)"
+              }
+            },
+            {
+              "value": "country_not_allowed",
+              "label": {
+                "en": "Country not allowed on the account",
+                "fr": "Pays non autorisé sur le compte",
+                "de": "Land für das Konto nicht erlaubt",
+                "es": "País no autorizado en la cuenta"
+              }
+            },
+            {
+              "value": "invalid_sender",
+              "label": {
+                "en": "Sender refused",
+                "fr": "Expéditeur refusé",
+                "de": "Absender abgelehnt",
+                "es": "Remitente rechazado"
+              }
+            },
+            {
+              "value": "rejected",
+              "label": {
+                "en": "SMS refused by the provider",
+                "fr": "SMS refusé par le fournisseur",
+                "de": "SMS vom Anbieter abgelehnt",
+                "es": "SMS rechazado por el proveedor"
+              }
+            },
+            {
+              "value": "rate_limited",
+              "label": {
+                "en": "Too many SMS or calls in a short time",
+                "fr": "Trop de SMS ou d'appels en peu de temps",
+                "de": "Zu viele SMS oder Aufrufe in kurzer Zeit",
+                "es": "Demasiados SMS o llamadas en poco tiempo"
+              }
+            },
+            {
+              "value": "server_error",
+              "label": {
+                "en": "Server error of the provider",
+                "fr": "Erreur du serveur du fournisseur",
+                "de": "Serverfehler des Anbieters",
+                "es": "Error del servidor del proveedor"
+              }
+            },
+            {
+              "value": "timeout",
+              "label": {
+                "en": "No answer in time (the SMS may still arrive)",
+                "fr": "Pas de réponse à temps (le SMS peut tout de même arriver)",
+                "de": "Keine Antwort rechtzeitig (die SMS kann trotzdem ankommen)",
+                "es": "Sin respuesta a tiempo (el SMS aún puede llegar)"
+              }
+            },
+            {
+              "value": "unreachable",
+              "label": {
+                "en": "Provider unreachable (network)",
+                "fr": "Fournisseur injoignable (réseau)",
+                "de": "Anbieter nicht erreichbar (Netzwerk)",
+                "es": "Proveedor inaccesible (red)"
+              }
+            },
+            {
+              "value": "unexpected",
+              "label": {
+                "en": "Unexpected answer",
+                "fr": "Réponse inattendue",
+                "de": "Unerwartete Antwort",
+                "es": "Respuesta inesperada"
+              }
+            }
+          ]
+        }
+      ],
+      "variables": [
+        {
+          "key": "reason",
+          "type": "string",
+          "label": {
+            "en": "Reason (code)",
+            "fr": "Cause (code)",
+            "de": "Ursache (Code)",
+            "es": "Causa (código)"
+          },
+          "description": {
+            "en": "not_enough_credits, access_denied, not_configured, account_not_validated, invalid_number, blocked_number, country_not_allowed, invalid_sender, rejected, rate_limited, server_error, timeout, unreachable, unexpected.",
+            "fr": "not_enough_credits, access_denied, not_configured, account_not_validated, invalid_number, blocked_number, country_not_allowed, invalid_sender, rejected, rate_limited, server_error, timeout, unreachable, unexpected.",
+            "de": "not_enough_credits, access_denied, not_configured, account_not_validated, invalid_number, blocked_number, country_not_allowed, invalid_sender, rejected, rate_limited, server_error, timeout, unreachable, unexpected.",
+            "es": "not_enough_credits, access_denied, not_configured, account_not_validated, invalid_number, blocked_number, country_not_allowed, invalid_sender, rejected, rate_limited, server_error, timeout, unreachable, unexpected."
+          }
+        },
+        {
+          "key": "status",
+          "type": "number",
+          "label": {
+            "en": "HTTP status",
+            "fr": "Code HTTP",
+            "de": "HTTP-Status",
+            "es": "Código HTTP"
+          },
+          "description": {
+            "en": "The HTTP answer of the provider (401, 429…), empty without an answer.",
+            "fr": "La réponse HTTP du fournisseur (401, 429…), vide sans réponse.",
+            "de": "Die HTTP-Antwort des Anbieters (401, 429…), leer ohne Antwort.",
+            "es": "La respuesta HTTP del proveedor (401, 429…), vacía sin respuesta."
+          }
+        },
+        {
+          "key": "error",
+          "type": "string",
+          "label": {
+            "en": "Error message",
+            "fr": "Message d'erreur",
+            "de": "Fehlermeldung",
+            "es": "Mensaje de error"
+          },
+          "description": {
+            "en": "The error in English, as in the logs.",
+            "fr": "L'erreur en anglais, comme dans les journaux.",
+            "de": "Der Fehler auf Englisch, wie in den Protokollen.",
+            "es": "El error en inglés, como en los registros."
+          }
+        },
+        {
+          "key": "phone_number",
+          "type": "string",
+          "label": {
+            "en": "Phone number",
+            "fr": "Numéro de téléphone",
+            "de": "Rufnummer",
+            "es": "Número de teléfono"
+          },
+          "description": {
+            "en": "The masked number of the recipient, e.g. +336******78.",
+            "fr": "Le numéro masqué du destinataire, par exemple +336******78.",
+            "de": "Die maskierte Nummer des Empfängers, z. B. +336******78.",
+            "es": "El número enmascarado del destinatario, por ejemplo +336******78."
+          }
+        }
+      ]
+    },
+    {
+      "key": "sms_undelivered",
+      "label": {
+        "en": "SMS not delivered",
+        "fr": "SMS non remis",
+        "de": "SMS nicht zugestellt",
+        "es": "SMS no entregado"
+      },
+      "description": {
+        "en": "SMSFactor accepted an SMS but reports it never reached the phone (phone off for days, unassigned number, refused by moderation). Read every 5 minutes for 48 hours after the send.",
+        "fr": "SMSFactor a accepté un SMS mais signale qu'il n'est jamais arrivé sur le téléphone (téléphone éteint plusieurs jours, numéro non attribué, refus de la modération). Lu toutes les 5 minutes pendant 48 heures après l'envoi.",
+        "de": "SMSFactor hat eine SMS angenommen, meldet aber, dass sie nie auf dem Telefon ankam (Telefon tagelang aus, nicht vergebene Nummer, von der Moderation abgelehnt). Wird 48 Stunden nach dem Senden alle 5 Minuten gelesen.",
+        "es": "SMSFactor aceptó un SMS pero indica que nunca llegó al teléfono (teléfono apagado varios días, número no asignado, rechazado por la moderación). Se consulta cada 5 minutos durante 48 horas tras el envío."
+      },
+      "fields": [
+        {
+          "key": "status",
+          "type": "multi_select",
+          "label": {
+            "en": "Statuses",
+            "fr": "Statuts",
+            "de": "Status",
+            "es": "Estados"
+          },
+          "description": {
+            "en": "Leave empty to react to every status.",
+            "fr": "Laissez vide pour réagir à tous les statuts.",
+            "de": "Leer lassen, um auf alle Status zu reagieren.",
+            "es": "Déjelo vacío para reaccionar a todos los estados."
+          },
+          "options": [
+            {
+              "value": "undelivered",
+              "label": {
+                "en": "Not received (operator report)",
+                "fr": "Non reçu (rapport de l'opérateur)",
+                "de": "Nicht empfangen (Betreiberbericht)",
+                "es": "No recibido (informe del operador)"
+              }
+            },
+            {
+              "value": "not_sent",
+              "label": {
+                "en": "Not sent (invalid number, anti-flood…)",
+                "fr": "Non envoyé (numéro invalide, anti-flood…)",
+                "de": "Nicht gesendet (ungültige Nummer, Flood-Schutz…)",
+                "es": "No enviado (número no válido, antiflood…)"
+              }
+            },
+            {
+              "value": "denied",
+              "label": {
+                "en": "Refused by moderation",
+                "fr": "Refusé par la modération",
+                "de": "Von der Moderation abgelehnt",
+                "es": "Rechazado por la moderación"
+              }
+            }
+          ]
+        }
+      ],
+      "variables": [
+        {
+          "key": "phone_number",
+          "type": "string",
+          "label": {
+            "en": "Phone number",
+            "fr": "Numéro de téléphone",
+            "de": "Rufnummer",
+            "es": "Número de teléfono"
+          },
+          "description": {
+            "en": "The masked number of the recipient, e.g. +336******78.",
+            "fr": "Le numéro masqué du destinataire, par exemple +336******78.",
+            "de": "Die maskierte Nummer des Empfängers, z. B. +336******78.",
+            "es": "El número enmascarado del destinatario, por ejemplo +336******78."
+          }
+        },
+        {
+          "key": "status",
+          "type": "string",
+          "label": {
+            "en": "Status (code)",
+            "fr": "Statut (code)",
+            "de": "Status (Code)",
+            "es": "Estado (código)"
+          },
+          "description": {
+            "en": "undelivered, not_sent or denied.",
+            "fr": "undelivered, not_sent ou denied.",
+            "de": "undelivered, not_sent oder denied.",
+            "es": "undelivered, not_sent o denied."
+          }
+        },
+        {
+          "key": "details",
+          "type": "string",
+          "label": {
+            "en": "Details",
+            "fr": "Détails",
+            "de": "Details",
+            "es": "Detalles"
+          },
+          "description": {
+            "en": "The detail SMSFactor gives, in English.",
+            "fr": "Le détail donné par SMSFactor, en anglais.",
+            "de": "Das Detail von SMSFactor, auf Englisch.",
+            "es": "El detalle que da SMSFactor, en inglés."
+          }
+        },
+        {
+          "key": "ticket",
+          "type": "string",
+          "label": {
+            "en": "Ticket",
+            "fr": "Ticket",
+            "de": "Ticket",
+            "es": "Ticket"
+          },
+          "description": {
+            "en": "The id SMSFactor gave to the send.",
+            "fr": "L'identifiant donné par SMSFactor à l'envoi.",
+            "de": "Die ID, die SMSFactor dem Versand gab.",
+            "es": "El identificador que SMSFactor dio al envío."
+          }
+        }
+      ]
+    },
+    {
+      "key": "sms_received",
+      "label": {
+        "en": "SMS received",
+        "fr": "SMS reçu",
+        "de": "SMS empfangen",
+        "es": "SMS recibido"
+      },
+      "description": {
+        "en": "A reply arrived on the SMSFactor account (\"Read the replies\" must be on). The sender can be forged: never use it to open a door or disarm an alarm.",
+        "fr": "Une réponse est arrivée sur le compte SMSFactor (« Lire les réponses » doit être activé). L'expéditeur peut être falsifié : ne vous en servez jamais pour ouvrir une porte ou désarmer une alarme.",
+        "de": "Eine Antwort ist auf dem SMSFactor-Konto eingegangen („Antworten lesen“ muss aktiv sein). Der Absender kann gefälscht sein: Nutzen Sie es nie, um eine Tür zu öffnen oder eine Alarmanlage zu entschärfen.",
+        "es": "Ha llegado una respuesta a la cuenta de SMSFactor («Leer las respuestas» debe estar activado). El remitente puede falsificarse: no lo use nunca para abrir una puerta o desactivar una alarma."
+      },
+      "fields": [
+        {
+          "key": "sender",
+          "type": "string",
+          "label": {
+            "en": "From",
+            "fr": "De",
+            "de": "Von",
+            "es": "De"
+          },
+          "description": {
+            "en": "Only SMS from this number, in international format (+33612345678). Empty: every sender.",
+            "fr": "Seulement les SMS de ce numéro, au format international (+33612345678). Vide : tous les expéditeurs.",
+            "de": "Nur SMS von dieser Nummer, im internationalen Format (+4915112345678). Leer: alle Absender.",
+            "es": "Solo los SMS de este número, en formato internacional (+34612345678). Vacío: todos los remitentes."
+          },
+          "placeholder": {
+            "en": "+33612345678",
+            "fr": "+33612345678",
+            "de": "+4915112345678",
+            "es": "+34612345678"
+          }
+        },
+        {
+          "key": "keyword",
+          "type": "string",
+          "label": {
+            "en": "First word",
+            "fr": "Premier mot",
+            "de": "Erstes Wort",
+            "es": "Primera palabra"
+          },
+          "description": {
+            "en": "Only SMS starting with this word, in capitals without accents (\"Status?\" gives STATUS). Empty: every SMS.",
+            "fr": "Seulement les SMS qui commencent par ce mot, en majuscules sans accents (« Météo ? » donne METEO). Vide : tous les SMS.",
+            "de": "Nur SMS, die mit diesem Wort beginnen, in Großbuchstaben ohne Akzente („Status?“ ergibt STATUS). Leer: alle SMS.",
+            "es": "Solo los SMS que empiezan por esta palabra, en mayúsculas sin acentos («¿Estado?» da ESTADO). Vacío: todos los SMS."
+          },
+          "placeholder": {
+            "en": "STATUS",
+            "fr": "METEO",
+            "de": "STATUS",
+            "es": "ESTADO"
+          }
+        }
+      ],
+      "variables": [
+        {
+          "key": "sender",
+          "type": "string",
+          "label": {
+            "en": "Sender",
+            "fr": "Expéditeur",
+            "de": "Absender",
+            "es": "Remitente"
+          },
+          "description": {
+            "en": "The number that sent the SMS, e.g. +33612345678.",
+            "fr": "Le numéro qui a envoyé le SMS, par exemple +33612345678.",
+            "de": "Die Nummer, die die SMS gesendet hat, z. B. +4915112345678.",
+            "es": "El número que envió el SMS, por ejemplo +34612345678."
+          }
+        },
+        {
+          "key": "message",
+          "type": "string",
+          "label": {
+            "en": "Text",
+            "fr": "Texte",
+            "de": "Text",
+            "es": "Texto"
+          },
+          "description": {
+            "en": "The text of the SMS (1,000 characters at most).",
+            "fr": "Le texte du SMS (1 000 caractères au plus).",
+            "de": "Der Text der SMS (höchstens 1.000 Zeichen).",
+            "es": "El texto del SMS (1000 caracteres como máximo)."
+          }
+        },
+        {
+          "key": "keyword",
+          "type": "string",
+          "label": {
+            "en": "First word",
+            "fr": "Premier mot",
+            "de": "Erstes Wort",
+            "es": "Primera palabra"
+          },
+          "description": {
+            "en": "The first word of the text, in capitals without accents.",
+            "fr": "Le premier mot du texte, en majuscules sans accents.",
+            "de": "Das erste Wort des Textes, in Großbuchstaben ohne Akzente.",
+            "es": "La primera palabra del texto, en mayúsculas sin acentos."
+          }
+        },
+        {
+          "key": "received_at",
+          "type": "string",
+          "label": {
+            "en": "Received at",
+            "fr": "Reçu le",
+            "de": "Empfangen am",
+            "es": "Recibido el"
+          },
+          "description": {
+            "en": "Date and time of reception, ISO 8601 in UTC.",
+            "fr": "Date et heure de réception, au format ISO 8601 en UTC.",
+            "de": "Datum und Uhrzeit des Empfangs, ISO 8601 in UTC.",
+            "es": "Fecha y hora de recepción, ISO 8601 en UTC."
+          }
+        }
+      ]
+    },
+    {
+      "key": "credits_low",
+      "label": {
+        "en": "Credits low",
+        "fr": "Crédits bas",
+        "de": "Wenig Guthaben",
+        "es": "Pocos créditos"
+      },
+      "description": {
+        "en": "The credits (SMSFactor) or the balance (Octopush) went below the threshold of the configuration. Fires once, then again only after the account was topped up above it.",
+        "fr": "Les crédits (SMSFactor) ou le solde (Octopush) sont passés sous le seuil de la configuration. Se déclenche une fois, puis de nouveau seulement après une recharge au-dessus du seuil.",
+        "de": "Das Guthaben (SMSFactor) bzw. der Saldo (Octopush) ist unter die Schwelle der Konfiguration gefallen. Löst einmal aus, danach erst wieder nach einer Aufladung über die Schwelle.",
+        "es": "Los créditos (SMSFactor) o el saldo (Octopush) han bajado del umbral de la configuración. Se activa una vez y de nuevo solo después de una recarga por encima del umbral."
+      },
+      "variables": [
+        {
+          "key": "credits_left",
+          "type": "number",
+          "label": {
+            "en": "Credits left",
+            "fr": "Crédits restants",
+            "de": "Restguthaben",
+            "es": "Créditos restantes"
+          }
+        },
+        {
+          "key": "threshold",
+          "type": "number",
+          "label": {
+            "en": "Threshold",
+            "fr": "Seuil",
+            "de": "Schwelle",
+            "es": "Umbral"
+          }
+        },
+        {
+          "key": "unit",
+          "type": "string",
+          "label": {
+            "en": "Unit",
+            "fr": "Unité",
+            "de": "Einheit",
+            "es": "Unidad"
+          },
+          "description": {
+            "en": "credits (SMSFactor) or eur (Octopush).",
+            "fr": "credits (SMSFactor) ou eur (Octopush).",
+            "de": "credits (SMSFactor) oder eur (Octopush).",
+            "es": "credits (SMSFactor) o eur (Octopush)."
+          }
+        },
+        {
+          "key": "provider",
+          "type": "string",
+          "label": {
+            "en": "Provider",
+            "fr": "Fournisseur",
+            "de": "Anbieter",
+            "es": "Proveedor"
+          },
+          "description": {
+            "en": "smsfactor or octopush.",
+            "fr": "smsfactor ou octopush.",
+            "de": "smsfactor oder octopush.",
+            "es": "smsfactor o octopush."
+          }
+        }
+      ]
+    }
+  ],
+  "scene_actions": [
+    {
+      "key": "send_sms",
+      "label": {
+        "en": "Send an SMS to a number",
+        "fr": "Envoyer un SMS à un numéro",
+        "de": "SMS an eine Nummer senden",
+        "es": "Enviar un SMS a un número"
+      },
+      "description": {
+        "en": "Sends an SMS to any number, even someone who is not a Gladys user (a neighbor, a babysitter).",
+        "fr": "Envoie un SMS à n'importe quel numéro, même à quelqu'un qui n'est pas utilisateur de Gladys (un voisin, une nounou).",
+        "de": "Sendet eine SMS an eine beliebige Nummer, auch an jemanden ohne Gladys-Konto (Nachbar, Babysitter).",
+        "es": "Envía un SMS a cualquier número, incluso a alguien que no es usuario de Gladys (un vecino, una niñera)."
+      },
+      "timeout_seconds": 30,
+      "fields": [
+        {
+          "key": "phone_numbers",
+          "type": "string",
+          "label": {
+            "en": "Phone numbers",
+            "fr": "Numéros de téléphone",
+            "de": "Rufnummern",
+            "es": "Números de teléfono"
+          },
+          "description": {
+            "en": "One or several numbers, separated by commas.",
+            "fr": "Un ou plusieurs numéros, séparés par des virgules.",
+            "de": "Eine oder mehrere Nummern, durch Kommas getrennt.",
+            "es": "Uno o varios números, separados por comas."
+          },
+          "placeholder": {
+            "en": "+33612345678, +33698765432",
+            "fr": "+33612345678, +33698765432",
+            "de": "+4915112345678, +4917612345678",
+            "es": "+34612345678, +34698765432"
+          },
+          "required": true
+        },
+        {
+          "key": "message",
+          "type": "string",
+          "label": {
+            "en": "Text",
+            "fr": "Texte",
+            "de": "Text",
+            "es": "Texto"
+          },
+          "description": {
+            "en": "Scene variables are allowed. A long text is sent in several parts, each one using credits.",
+            "fr": "Les variables de scène sont acceptées. Un long texte part en plusieurs parties, chacune consommant des crédits.",
+            "de": "Szenenvariablen sind erlaubt. Ein langer Text wird in mehreren Teilen gesendet, jeder verbraucht Guthaben.",
+            "es": "Se admiten variables de escena. Un texto largo se envía en varias partes, y cada una consume créditos."
+          },
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "key": "sent_count",
+          "type": "number",
+          "label": {
+            "en": "SMS sent",
+            "fr": "SMS envoyés",
+            "de": "Gesendete SMS",
+            "es": "SMS enviados"
+          }
+        },
+        {
+          "key": "invalid_numbers",
+          "type": "string",
+          "label": {
+            "en": "Numbers not understood",
+            "fr": "Numéros non compris",
+            "de": "Nicht erkannte Nummern",
+            "es": "Números no reconocidos"
+          }
+        },
+        {
+          "key": "refused_count",
+          "type": "number",
+          "label": {
+            "en": "Numbers filtered by the provider",
+            "fr": "Numéros filtrés par le fournisseur",
+            "de": "Vom Anbieter gefilterte Nummern",
+            "es": "Números filtrados por el proveedor"
+          }
+        },
+        {
+          "key": "credits_used",
+          "type": "number",
+          "label": {
+            "en": "Credits used",
+            "fr": "Crédits utilisés",
+            "de": "Verbrauchtes Guthaben",
+            "es": "Créditos usados"
+          }
+        },
+        {
+          "key": "credits_left",
+          "type": "number",
+          "label": {
+            "en": "Credits left",
+            "fr": "Crédits restants",
+            "de": "Restguthaben",
+            "es": "Créditos restantes"
+          }
+        }
+      ]
+    },
+    {
+      "key": "get_account",
+      "label": {
+        "en": "Read the SMS account",
+        "fr": "Lire le compte SMS",
+        "de": "SMS-Konto lesen",
+        "es": "Leer la cuenta SMS"
+      },
+      "description": {
+        "en": "Credits or balance left and SMS of the month, for a report or a condition.",
+        "fr": "Crédits ou solde restants et SMS du mois, pour un compte rendu ou une condition.",
+        "de": "Restguthaben und SMS des Monats, für einen Bericht oder eine Bedingung.",
+        "es": "Créditos o saldo restantes y SMS del mes, para un informe o una condición."
+      },
+      "timeout_seconds": 30,
+      "outputs": [
+        {
+          "key": "credits_left",
+          "type": "number",
+          "label": {
+            "en": "Credits left",
+            "fr": "Crédits restants",
+            "de": "Restguthaben",
+            "es": "Créditos restantes"
+          }
+        },
+        {
+          "key": "unit",
+          "type": "string",
+          "label": {
+            "en": "Unit (credits or eur)",
+            "fr": "Unité (credits ou eur)",
+            "de": "Einheit (credits oder eur)",
+            "es": "Unidad (credits o eur)"
+          }
+        },
+        {
+          "key": "sent_this_month",
+          "type": "number",
+          "label": {
+            "en": "SMS sent this month",
+            "fr": "SMS envoyés ce mois-ci",
+            "de": "SMS gesendet (Monat)",
+            "es": "SMS enviados este mes"
+          }
+        },
+        {
+          "key": "received_this_month",
+          "type": "number",
+          "label": {
+            "en": "Replies this month",
+            "fr": "Réponses ce mois-ci",
+            "de": "Antworten (Monat)",
+            "es": "Respuestas este mes"
+          }
+        },
+        {
+          "key": "undelivered_this_month",
+          "type": "number",
+          "label": {
+            "en": "Not delivered this month",
+            "fr": "Non remis ce mois-ci",
+            "de": "Nicht zugestellt (Monat)",
+            "es": "No entregados este mes"
+          }
+        },
+        {
+          "key": "provider",
+          "type": "string",
+          "label": {
+            "en": "Provider",
+            "fr": "Fournisseur",
+            "de": "Anbieter",
+            "es": "Proveedor"
+          }
+        }
+      ]
+    }
+  ]
+}

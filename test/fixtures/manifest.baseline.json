@@ -1,0 +1,252 @@
+{
+  "_comment": "Keys users store, as published in 0.1.0. Never edit without a documented migration (see test/structure.test.js).",
+  "type": "communication",
+  "messaging": {
+    "receive": false
+  },
+  "config_schema": [
+    {
+      "key": "provider",
+      "type": "select"
+    },
+    {
+      "key": "smsfactor_token",
+      "type": "secret"
+    },
+    {
+      "key": "octopush_login",
+      "type": "string"
+    },
+    {
+      "key": "octopush_api_key",
+      "type": "secret"
+    },
+    {
+      "key": "octopush_sms_type",
+      "type": "select"
+    },
+    {
+      "key": "sender",
+      "type": "string"
+    },
+    {
+      "key": "country_code",
+      "type": "string"
+    },
+    {
+      "key": "low_credits_threshold",
+      "type": "number"
+    },
+    {
+      "key": "receive_sms",
+      "type": "boolean"
+    }
+  ],
+  "contact_schema": [
+    {
+      "key": "phone_number",
+      "type": "string"
+    }
+  ],
+  "select_values": {
+    "provider": ["smsfactor", "octopush"],
+    "octopush_sms_type": ["premium", "low_cost"]
+  },
+  "actions": ["test_connection", "send_test_sms"],
+  "scene_triggers": [
+    {
+      "key": "sms_not_sent",
+      "fields": [
+        {
+          "key": "reason",
+          "type": "multi_select",
+          "options": [
+            "not_enough_credits",
+            "access_denied",
+            "not_configured",
+            "account_not_validated",
+            "invalid_number",
+            "blocked_number",
+            "country_not_allowed",
+            "invalid_sender",
+            "rejected",
+            "rate_limited",
+            "server_error",
+            "timeout",
+            "unreachable",
+            "unexpected"
+          ]
+        }
+      ],
+      "variables": [
+        {
+          "key": "reason",
+          "type": "string"
+        },
+        {
+          "key": "status",
+          "type": "number"
+        },
+        {
+          "key": "error",
+          "type": "string"
+        },
+        {
+          "key": "phone_number",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "key": "sms_undelivered",
+      "fields": [
+        {
+          "key": "status",
+          "type": "multi_select",
+          "options": ["undelivered", "not_sent", "denied"]
+        }
+      ],
+      "variables": [
+        {
+          "key": "phone_number",
+          "type": "string"
+        },
+        {
+          "key": "status",
+          "type": "string"
+        },
+        {
+          "key": "details",
+          "type": "string"
+        },
+        {
+          "key": "ticket",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "key": "sms_received",
+      "fields": [
+        {
+          "key": "sender",
+          "type": "string",
+          "options": []
+        },
+        {
+          "key": "keyword",
+          "type": "string",
+          "options": []
+        }
+      ],
+      "variables": [
+        {
+          "key": "sender",
+          "type": "string"
+        },
+        {
+          "key": "message",
+          "type": "string"
+        },
+        {
+          "key": "keyword",
+          "type": "string"
+        },
+        {
+          "key": "received_at",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "key": "credits_low",
+      "fields": [],
+      "variables": [
+        {
+          "key": "credits_left",
+          "type": "number"
+        },
+        {
+          "key": "threshold",
+          "type": "number"
+        },
+        {
+          "key": "unit",
+          "type": "string"
+        },
+        {
+          "key": "provider",
+          "type": "string"
+        }
+      ]
+    }
+  ],
+  "scene_actions": [
+    {
+      "key": "send_sms",
+      "fields": ["phone_numbers", "message"],
+      "outputs": [
+        {
+          "key": "sent_count",
+          "type": "number"
+        },
+        {
+          "key": "invalid_numbers",
+          "type": "string"
+        },
+        {
+          "key": "refused_count",
+          "type": "number"
+        },
+        {
+          "key": "credits_used",
+          "type": "number"
+        },
+        {
+          "key": "credits_left",
+          "type": "number"
+        }
+      ]
+    },
+    {
+      "key": "get_account",
+      "fields": [],
+      "outputs": [
+        {
+          "key": "credits_left",
+          "type": "number"
+        },
+        {
+          "key": "unit",
+          "type": "string"
+        },
+        {
+          "key": "sent_this_month",
+          "type": "number"
+        },
+        {
+          "key": "received_this_month",
+          "type": "number"
+        },
+        {
+          "key": "undelivered_this_month",
+          "type": "number"
+        },
+        {
+          "key": "provider",
+          "type": "string"
+        }
+      ]
+    }
+  ],
+  "widgets": [
+    {
+      "key": "account",
+      "settings": []
+    },
+    {
+      "key": "inbox",
+      "settings": []
+    }
+  ]
+}

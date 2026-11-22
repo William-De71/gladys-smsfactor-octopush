@@ -1,0 +1,11 @@
+Gladys SMSFactor + Octopush integration
+Copyright 2026 William Deren
+
+This product is licensed under the Apache License, Version 2.0 (see LICENSE).
+
+The calls to the SMSFactor and Octopush APIs follow their public documentation
+(https://dev.smsfactor.com and https://dev.octopush.com). No code of theirs is
+included.
+
+SMSFactor and Octopush are trademarks of their respective owners. This
+community integration is not affiliated with, endorsed or sponsored by either.
